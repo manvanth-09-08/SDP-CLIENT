@@ -96,7 +96,7 @@ function AddPatientModal({
           <div className="modal"></div>
           <div className="modal_content">
             <div className="modal_top">
-              <h2>Add Product </h2>
+              <h2>Add Patient </h2>
               <button>
                 <img src="./Assets/x.svg" alt="" />
               </button>
@@ -110,7 +110,7 @@ function AddPatientModal({
                     type="text"
                     // value={status}
                     className="form-control"
-                    placeholder="Enter the Status"
+                    placeholder="Enter the name"
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>

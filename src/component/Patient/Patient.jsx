@@ -19,6 +19,7 @@ function Patient({ setLoading, camp, patient, faculty }) {
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState();
   const [trigger, setTrigger] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getData = async () => {
     setLoading(true);
@@ -89,6 +90,26 @@ function Patient({ setLoading, camp, patient, faculty }) {
     // console.log(obj)
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update search query on input change
+  };
+
+  const handleClearBtn = () => {
+    setSearchQuery("");
+  };
+
+  const filteredPatients = patient.filter((data) => {
+    console.log(
+      "data : ",
+      data.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return data.name.toLowerCase().includes(searchQuery.toLowerCase());
+    // data.phone.includes(searchQuery) ||
+    // data.patientId.includes(searchQuery)
+    // Add more fields here as needed
+  });
+
   return (
     <div className="content">
       <AddPatientModal
@@ -102,16 +123,54 @@ function Patient({ setLoading, camp, patient, faculty }) {
       <div className="header">
         <h4>Patient Data</h4>
       </div>
+      <div className="buttons">
+        <button
+          className="add-btn"
+          onClick={(e) => downloadData(e.target.value)}
+        >
+          Download CSV
+        </button>
 
-      <button className="add-btn" onClick={(e) => downloadData(e.target.value)}>
-        Download CSV
-      </button>
+        <button className="add-btn" onClick={openModal}>
+          Add Patient
+        </button>
 
-      <button className="add-btn" onClick={openModal}>
-        Add Patient
-      </button>
+        {/* <input
+        type="text"
+        placeholder="Search patients..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className="search-input" // Add styling as needed
+      /> */}
 
-      <div className="table-div">
+        {/* <input
+        onChange={handleSearchChange}
+        value={searchQuery}
+        type="text"
+        name="product-search"
+        id="product-search"
+        placeholder="Search Patients"
+      />
+      <i onClick={handleClearBtn} className="fas fa-times"></i>
+      
+       */}
+
+        <div className="input-wrap">
+          <i className="fas fa-search"></i>
+
+          <input
+            onChange={handleSearchChange}
+            value={searchQuery}
+            type="text"
+            name="product-search"
+            id="product-search"
+            placeholder="Search Patients"
+          />
+          <i onClick={handleClearBtn} className="fas fa-times"></i>
+        </div>
+      </div>
+
+      {/* <div className="table-div">
         <table class="table">
           <thead className="table-header">
             <tr>
@@ -119,7 +178,7 @@ function Patient({ setLoading, camp, patient, faculty }) {
               <th scope="col">Counseller</th>
               <th scope="col">Name</th>
               <th scope="col">Phone</th>
-              {/* <th scope="col">Registration Date</th> */}
+
               <th scope="col"></th>
             </tr>
           </thead>
@@ -142,9 +201,7 @@ function Patient({ setLoading, camp, patient, faculty }) {
                     <td>
                       <p>{data.phone}</p>
                     </td>
-                    {/* <td>
-                      <p>{data.createdAt.split("T")[0]}</p>
-                    </td> */}
+
                     <td>
                       <button
                         className="edit-btn"
@@ -158,6 +215,42 @@ function Patient({ setLoading, camp, patient, faculty }) {
                   </tr>
                 );
               })}
+          </tbody>
+        </table>
+      </div> */}
+
+      <div className="table-div">
+        <table className="table">
+          <thead className="table-header">
+            <tr>
+              <th scope="col">Patient ID</th>
+              <th scope="col">Counseller</th>
+              <th scope="col">Name</th>
+              <th scope="col">Phone</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody className="table-body">
+            {filteredPatients.map((data, key) => (
+              <tr key={key}>
+                <th scope="row">{data.patientId}</th>
+                <td>
+                  {faculty?.map((d, k) => {
+                    if (d._id === data.faculty) return d.name;
+                  })}
+                </td>
+                <td>{data.name}</td>
+                <td>{data.phone}</td>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <i className="bi bi-eye"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

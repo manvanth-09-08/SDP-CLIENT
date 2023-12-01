@@ -97,6 +97,7 @@ function Dashboard() {
       .get(ADD_PATIENT, { headers: headers })
       .then((res) => {
         // console.log("Paient : ", res);
+        localStorage.setItem("patientList", res.data.data);
         setPatient(res.data.data);
       })
       .catch((err) => {

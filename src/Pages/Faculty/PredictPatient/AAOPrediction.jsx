@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./soberPeriodPrediction.scss";
 import { AAI_PREDICTION } from "./../../../utils/apiConstant.js";
+import { useNavigate } from "react-router";
 
 const AAOPrediction = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Age: 0,
     "Weight while admission (In Kg)": 0,
@@ -75,6 +77,7 @@ const AAOPrediction = () => {
       // console.log("hello");
       const response = await axios.post(AAI_PREDICTION, formData);
       // console.log("data sent");
+      console.log(response);
       setOutputData(response.data.result);
       // console.log(outputData);
     } catch (error) {
@@ -84,6 +87,15 @@ const AAOPrediction = () => {
 
   return (
     <div class="question-box">
+      <div className="header1">
+        <i
+          class="bi bi-arrow-left-square-fill"
+          onClick={() => {
+            localStorage.clear();
+            navigate(-1);
+          }}
+        ></i>
+      </div>
       <form onSubmit={handleSubmit}>
         <div class="question">
           <label>Reason to start alcohol?</label>
@@ -724,7 +736,7 @@ const AAOPrediction = () => {
       </form>
       {outputData && (
         <div className="output-box">
-          <h4>AAO: {outputData}</h4>
+          <h4>Age of Alcohol Initiation: {outputData}</h4>
         </div>
       )}
     </div>

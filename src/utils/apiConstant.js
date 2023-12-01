@@ -1,5 +1,5 @@
-export const BASE_URL = "http://127.0.0.1:5000";
-export const ML_URL = "http://127.0.0.1:9000";
+export const BASE_URL = "http://localhost:5000";
+export const ML_URL = "http://localhost:9000";
 // export const BASE_URL = "https://backendsurvey.herokuapp.com"
 
 export const LOGIN_URL = `${BASE_URL}/api/user/login`;

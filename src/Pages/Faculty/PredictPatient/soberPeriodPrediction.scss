@@ -54,3 +54,20 @@
 .output-box .output-value {
   margin-right: 10px; /* spacing between the text and the output */
 }
+
+.header1 {
+  width: 70%;
+  margin: auto;
+  padding-top: 40px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  i {
+    font-size: 25px;
+    cursor: pointer;
+    padding-left: 55px;
+    padding-bottom: 10px;
+  }
+}

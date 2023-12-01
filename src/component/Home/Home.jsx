@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Home.scss";
 import { BarChart } from "@mui/x-charts";
-import { ChartsXAxis } from "@mui/x-charts/ChartsXAxis";
-import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
-import { Label } from "recharts";
 
-function Home({ locCount, facCount, campCount, patientCount, patients }) {
-  console.log("PATIENTS : ", patients);
-  console.log("PATIENTCOUNT : ", patientCount);
-  const [patientList, setPatientList] = useState([]);
-  console.log("HEHEHEHEHEHEHEHHEHEHEHEHEHEHEEHEH");
+import { ADD_PATIENT } from "../../utils/apiConstant";
+import axios from "axios";
 
+function Home({ locCount, facCount, campCount, patientCount }) {
   const ageBinList = [
     "18-25",
     "26-32",
@@ -30,29 +25,52 @@ function Home({ locCount, facCount, campCount, patientCount, patients }) {
     ">60": 0,
   };
 
-  async function getPatientNumber() {
-    patients.forEach((patient) => {
-      if (patient.age < 26) ageBin["18-25"]++;
-      else if (patient.age < 33) ageBin["26-32"]++;
-      else if (patient.age < 40) ageBin["33-39"]++;
-      else if (patient.age < 47) ageBin["40-46"]++;
-      else if (patient.age < 54) ageBin["47-53"]++;
-      else if (patient.age < 60) ageBin["54-60"]++;
-      else ageBin[">60"]++;
-    });
+  const [patientList, setPatientList] = useState([]);
+  const [patients, setPatient] = useState([]);
 
-    var patientCountList = [];
-    ageBinList.forEach((age) => {
-      patientCountList.push(ageBin[age]);
-    });
-    console.log("PAtientLIST : ", patientCountList);
+  const auth = localStorage.getItem("auth");
+  const headers = {
+    Authorization: `Bearer ${auth}`,
+  };
 
-    setPatientList(patientCountList);
-  }
+  // setLoading(true);
+  const getPatient = async () => {
+    await axios
+      .get(ADD_PATIENT, { headers: headers })
+      .then((res) => {
+        const fetchedPatients = res.data.data;
+        console.log("PATIENTSSSSSSSSSSSS: ", fetchedPatients);
+
+        const newAgeBin = { ...ageBin };
+        fetchedPatients.forEach((patient) => {
+          if (patient.age < 26) ageBin["18-25"]++;
+          else if (patient.age < 33) ageBin["26-32"]++;
+          else if (patient.age < 40) ageBin["33-39"]++;
+          else if (patient.age < 47) ageBin["40-46"]++;
+          else if (patient.age < 54) ageBin["47-53"]++;
+          else if (patient.age < 60) ageBin["54-60"]++;
+          else ageBin[">60"]++;
+        });
+
+        const patientCountList = ageBinList.map((age) => newAgeBin[age]);
+        console.log("PatientLIST: ", patientCountList);
+        setPatientList(patientCountList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // setLoading(false);
+
+  console.log("HEHEHEHEHEHEHEHHEHEHEHEHEHEHEEHEH : ", patients);
+
+  // async function getPatientNumber() {
+
+  // }
 
   useEffect(() => {
-    getPatientNumber();
-  }, [patients]);
+    getPatient();
+  }, []);
 
   return (
     <div className="admin-home">
@@ -90,8 +108,8 @@ function Home({ locCount, facCount, campCount, patientCount, patients }) {
         </div>
       </div>
 
-      <div className="graph-container">
-        {patientList ? (
+      <div className="data-box">
+        {patientList.length != 0 ? (
           <BarChart
             xAxis={[
               {
@@ -106,15 +124,22 @@ function Home({ locCount, facCount, campCount, patientCount, patients }) {
                   ">60",
                 ],
                 id: "ageGroup",
+                label: "Age Group",
               },
             ]}
-            yAxis={{ id: "patientsNumber" }}
+            yAxis={[
+              {
+                scaleType: "linear",
+                id: "patientCount",
+                label: "Patient Count",
+              },
+            ]}
             series={[{ data: patientList }]}
             width={500}
             height={300}
           />
         ) : (
-          <p>No daya to display</p>
+          <p>No data to display</p>
         )}
       </div>
     </div>

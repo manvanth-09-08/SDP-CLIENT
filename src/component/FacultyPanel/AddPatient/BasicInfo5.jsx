@@ -123,7 +123,7 @@ function BasicInfo5({ prevData, data, setData, setStep, setLoading }) {
 
     setData(newData);
 
-    console.log(data);
+    console.log("DATA1 : ", data);
 
     const auth = localStorage.getItem("facultyAuth");
 

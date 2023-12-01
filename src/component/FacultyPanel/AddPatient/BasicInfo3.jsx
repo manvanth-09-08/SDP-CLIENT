@@ -5,11 +5,7 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import { ADD_PATIENT } from "../../../utils/apiConstant";
 import "./AddPatient.scss";
 
-const choiceOptions = [
-  "yes",
-  "no"
-]
-
+const choiceOptions = ["yes", "no"];
 
 const familyMember = [
   "Father",
@@ -84,7 +80,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
 
   const [familyHealth, setFamilyHealth] = useState([]);
 
-
   const [familyObj, setFamilyObj] = useState({
     member: "",
     age: "",
@@ -100,10 +95,8 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
     state: "",
   });
 
-
   const addFamily = () => {
-
-    console.log(family)
+    console.log(family);
 
     setFamily([...family, familyObj]);
 
@@ -153,14 +146,16 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
     reason_for_unemployment: "",
     occupational_damage: "",
     financial_debt: "",
-    financial_debt_amount: ""
+    financial_debt_amount: "",
   });
 
-
-
   const submit = async () => {
-
-    const obj = { ...data, ...infoData, family_history: family, family_health_status: familyHealth }
+    const obj = {
+      ...data,
+      ...infoData,
+      family_history: family,
+      family_health_status: familyHealth,
+    };
 
     console.log(obj);
 
@@ -178,23 +173,24 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       );
 
       if (datum) {
-        setLoading(false)
+        setLoading(false);
         cogoToast.success("Patient Added successfully");
         navigate("/faculty");
       }
     } catch (err) {
-      setLoading(false)
-      cogoToast.error("some error occured please try again")
+      setLoading(false);
+      cogoToast.error("some error occured please try again");
       console.log(err);
     }
-
-  }
-
+  };
 
   const update = async () => {
-
-
-    const obj = { ...data, ...infoData, family_history: family, family_health_status: familyHealth }
+    const obj = {
+      ...data,
+      ...infoData,
+      family_history: family,
+      family_health_status: familyHealth,
+    };
 
     const auth = localStorage.getItem("facultyAuth");
 
@@ -220,7 +216,7 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       cogoToast.error("some error occured please try again");
       console.log(err);
     }
-  }
+  };
 
   const nextStep = () => {
     // const obj = {
@@ -242,13 +238,13 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
     setStep(4);
   };
 
-
   useEffect(() => {
     if (data) {
       const obj = {
         extra_marital_experience: data.extra_marital_experience,
         premarital_sexual_encounter: data.premarital_sexual_encounter,
-        involved_high_risk_sexual_activity: data.involved_high_risk_sexual_activity,
+        involved_high_risk_sexual_activity:
+          data.involved_high_risk_sexual_activity,
         sexual_problems: data.sexual_problems,
         spouse_name: data.spouse_name,
         spouse_age: data.spouse_age,
@@ -259,7 +255,8 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
         marriage_years: data.marriage_years,
         marriage_type: data.marriage_type,
         other_marriage: data.other_marriage,
-        marriage_seperation_due_to_addication: data.marriage_seperation_due_to_addication,
+        marriage_seperation_due_to_addication:
+          data.marriage_seperation_due_to_addication,
         longest_marriage_seperation: data.longest_marriage_seperation,
         suspicious_of_wife: data.suspicious_of_wife,
         family_violence: data.family_violence,
@@ -271,20 +268,16 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
         reason_for_unemployment: data.reason_for_unemployment,
         occupational_damage: data.occupational_damage,
         financial_debt: data.financial_debt,
-        financial_debt_amount: data.financial_debt_amount
-      }
+        financial_debt_amount: data.financial_debt_amount,
+      };
 
-      setInfoData({ ...obj })
+      setInfoData({ ...obj });
 
-      setFamily(data.family ? data.family : [])
+      setFamily(data.family ? data.family : []);
 
-      setFamily(data.family_suffering ? data.family_suffering : [])
-
+      setFamily(data.family_suffering ? data.family_suffering : []);
     }
   }, [data]);
-
-
-
 
   return (
     <div className="basic-info">
@@ -563,7 +556,10 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               id="year"
               value={familyHealthObj.member}
               onChange={(e) =>
-                setFamilyHealthObj({ ...familyHealthObj, member: e.target.value })
+                setFamilyHealthObj({
+                  ...familyHealthObj,
+                  member: e.target.value,
+                })
               }
             >
               <option>Please select</option>
@@ -635,7 +631,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       </div>
 
       <hr className="my-3" />
-
 
       <h2>Sexual History</h2>
 
@@ -732,7 +727,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       </div>
 
       <hr className="my-3" />
-
 
       <h2>MARITAL HISTORY</h2>
 
@@ -832,7 +826,10 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               id="year"
               value={infoData.spouse_monthly_income}
               onChange={(e) =>
-                setInfoData({ ...infoData, spouse_monthly_income: e.target.value })
+                setInfoData({
+                  ...infoData,
+                  spouse_monthly_income: e.target.value,
+                })
               }
             >
               <option>Please select</option>
@@ -981,7 +978,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       </div>
 
       <hr className="my-3" />
-
 
       <h2>OCCUPATIONAL HISTORY</h2>
 
@@ -1185,9 +1181,7 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
       <div className="legal_history">
         <div className="row">
           <div className="col-sm-12 mb-3 col-lg-6">
-            <label className="input-lebel">
-              Arrested for
-            </label>
+            <label className="input-lebel">Arrested for</label>
             <select
               class="form-select form-select-lg"
               id="year"
@@ -1201,8 +1195,9 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
             >
               <option>Please select</option>
               <option value={"drunken"}>drunken</option>
-              <option value={"drug influenced behavior"}>drug influenced behavior</option>
-
+              <option value={"drug influenced behavior"}>
+                drug influenced behavior
+              </option>
             </select>
           </div>
 
@@ -1225,9 +1220,7 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
 
         <div className="row">
           <div className="col-sm-12 mb-3 col-lg-6">
-            <label className="input-lebel">
-              Fined for drunken drive
-            </label>
+            <label className="input-lebel">Fined for drunken drive</label>
             <select
               class="form-select form-select-lg"
               id="year"
@@ -1242,7 +1235,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               <option>Please select</option>
               <option value={"yes"}>yes</option>
               <option value={"no"}>no</option>
-
             </select>
           </div>
 
@@ -1262,7 +1254,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
             />
           </div>
         </div>
-
 
         <div className="row">
           <div className="col-sm-12 mb-3 col-lg-6">
@@ -1283,7 +1274,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               <option>Please select</option>
               <option value={"alcohol"}>alcohol</option>
               <option value={"drug"}>drug</option>
-
             </select>
           </div>
 
@@ -1304,12 +1294,9 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
           </div>
         </div>
 
-
         <div className="row">
           <div className="col-sm-12 mb-3 col-lg-6">
-            <label className="input-lebel">
-              Assault
-            </label>
+            <label className="input-lebel">Assault</label>
             <select
               class="form-select form-select-lg"
               id="year"
@@ -1324,7 +1311,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               <option>Please select</option>
               <option value={"yes"}>yes</option>
               <option value={"no"}>no</option>
-
             </select>
           </div>
 
@@ -1345,12 +1331,9 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
           </div>
         </div>
 
-
         <div className="row">
           <div className="col-sm-12 mb-3 col-lg-6">
-            <label className="input-lebel">
-              Any other
-            </label>
+            <label className="input-lebel">Any other</label>
             <select
               class="form-select form-select-lg"
               id="year"
@@ -1365,7 +1348,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
               <option>Please select</option>
               <option value={"yes"}>yes</option>
               <option value={"no"}>no</option>
-
             </select>
           </div>
 
@@ -1385,7 +1367,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
             />
           </div>
         </div>
-
 
         <hr />
       </div>
@@ -1400,8 +1381,6 @@ function BasicInfo3({ prevData, data, setData, setStep, setLoading }) {
             <button className="btn btn-primary" onClick={() => nextStep()}>
               Next
             </button>
-
-
           </div>
         </div>
       </div>

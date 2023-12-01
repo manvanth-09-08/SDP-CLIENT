@@ -151,6 +151,7 @@ function BasicInfo({ setData, setStep, data }) {
   ///////////////////My Code////////////////
   const [allocated, setAllocated] = useState("no");
   const [patientId, setPatientId] = useState();
+  const [aadhar, setAadhar] = useState();
 
   ////////////End//////////////////////
 
@@ -209,8 +210,10 @@ function BasicInfo({ setData, setStep, data }) {
   const { id } = useParams();
 
   const nextStep = () => {
+    addComplaints();
     const obj = {
       patientId: 0,
+      aadharNumber: aadhar,
       allocated: allocated,
       name: name,
       age: age,
@@ -270,12 +273,13 @@ function BasicInfo({ setData, setStep, data }) {
   };
 
   const addComplaints = () => {
-    if (!drug || !drugQuantity || !drugFrequency || !routeStration) {
+    if (!drug && !drugQuantity && !drugFrequency && !routeStration) {
       cogoToast.error("Please fill all the fields!");
       return;
     }
 
     const obj = {
+      drug_type: drugType,
       drug: drug,
       age_of_first_use: drugAgeFirst,
       year_use: drugYearUse,
@@ -294,6 +298,7 @@ function BasicInfo({ setData, setStep, data }) {
     setDrugYearExessive("");
     setDrugFrequency("");
     setDrugQuantity("");
+    console.log("ARRAy : ", arr);
   };
 
   useEffect(() => {
@@ -322,6 +327,7 @@ function BasicInfo({ setData, setStep, data }) {
       setMotivationFactor(data?.motivationFactor);
       setWillingness(data?.willingness_for_treatment);
       setActionTaken(data?.actionTaken);
+      setAadhar(data?.aadharNumber);
     }
   }, [data]);
 
@@ -423,12 +429,12 @@ function BasicInfo({ setData, setStep, data }) {
             Aadhar <span className="imp-mark">*</span>
           </label>
           <input
-            value={user.aadhar}
+            value={aadhar}
             name="aadhar"
             type="text"
             className="form-control"
             placeholder="Enter the Adhaar Number"
-            onChange={(e) => handleChange(e.target.value)}
+            onChange={(e) => setAadhar(e.target.value)}
           />
         </div>
       </div>
@@ -591,12 +597,13 @@ function BasicInfo({ setData, setStep, data }) {
               <div className="row">
                 <div className="col-sm-12 mb-3 col-lg-6">
                   <label className="input-lebel">Drug Type</label>
+                  {console.log(complaints[key])}
                   <select
                     class="form-select form-select-lg"
                     id="year"
-                    value={data.drug_type}
+                    value={data.drug}
                   >
-                    <option>Please select</option>
+                    <option>{complaints[key]?.drug_type}</option>
                     {drugTypeOption &&
                       drugTypeOption.map((data, key) => {
                         return (
@@ -615,7 +622,7 @@ function BasicInfo({ setData, setStep, data }) {
                     id="year"
                     value={data.drug}
                   >
-                    <option>Please select</option>
+                    <option>{complaints[key]?.drug}</option>
                     {drugOption &&
                       drugOption.map((data, key) => {
                         return (

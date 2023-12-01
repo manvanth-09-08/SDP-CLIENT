@@ -24,6 +24,8 @@ function Dashboard() {
 
   const [loading, setLoading] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const headers = {
     Authorization: `Bearer ${auth}`,
   };
@@ -65,6 +67,26 @@ function Dashboard() {
 
     setLoading(false);
   }, []);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update search query on input change
+  };
+
+  const handleClearBtn = () => {
+    setSearchQuery("");
+  };
+
+  const filteredPatients = patientData.filter((data) => {
+    console.log(
+      "data : ",
+      data.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return data.name.toLowerCase().includes(searchQuery.toLowerCase());
+    // data.phone.includes(searchQuery) ||
+    // data.patientId.includes(searchQuery)
+    // Add more fields here as needed
+  });
 
   // return (
   //   <div className="faculty-dashboard">
@@ -154,12 +176,28 @@ function Dashboard() {
       <div className="patient-list">
         <div className="header">
           <h6>Patients List</h6>
-          <button onClick={() => navigate(`/patientAdd/${locationId}`)}>
-            Add Patient
-          </button>
+          <div className="buttons1">
+            <button onClick={() => navigate(`/patientAdd/${locationId}`)}>
+              Add Patient
+            </button>
+
+            <div className="input-wrap1">
+              <i className="fas fa-search"></i>
+
+              <input
+                onChange={handleSearchChange}
+                value={searchQuery}
+                type="text"
+                name="product-search"
+                id="product-search"
+                placeholder="Search Patients"
+              />
+              <i onClick={handleClearBtn} className="fas fa-times"></i>
+            </div>
+          </div>
         </div>
       </div>
-      {patientData.length != 0 ? (
+      {filteredPatients.length != 0 ? (
         <div className="patient-list">
           {/* <div className="header">
             <h6>Patients List</h6>
@@ -167,7 +205,7 @@ function Dashboard() {
               Add Patient
             </button>
           </div> */}
-          {patientData.map((data, key) => {
+          {filteredPatients.map((data, key) => {
             return (
               <div className="patient">
                 <p>
@@ -186,7 +224,7 @@ function Dashboard() {
           })}
         </div>
       ) : (
-        <p className="no-patient">No Patients Added Yet</p>
+        <p className="no-patient">No Patients To Display</p>
       )}
 
       {/* <div className="prediction-buttons">

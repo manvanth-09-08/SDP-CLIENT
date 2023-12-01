@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./soberPeriodPrediction.scss";
 import { RISK_PREDICTION } from "./../../../utils/apiConstant.js";
+import { useNavigate } from "react-router";
 
 const RiskLevelPrediction = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     "R_to feel better/confident/happy": 0,
     "R_to avoid problems and sadness": 0,
@@ -94,6 +96,15 @@ const RiskLevelPrediction = () => {
 
   return (
     <div class="question-box">
+      <div className="header1">
+        <i
+          class="bi bi-arrow-left-square-fill"
+          onClick={() => {
+            localStorage.clear();
+            navigate(-1);
+          }}
+        ></i>
+      </div>
       <form onSubmit={handleSubmit}>
         <div class="question">
           <label>Reason to start alcohol?</label>
