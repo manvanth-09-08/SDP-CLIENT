@@ -1,5 +1,4 @@
-export const BASE_URL =
-  "https://sdp-server-1234-01fe20bcs223-kletechaci.vercel.app:5000";
+export const BASE_URL = "https://sdp-server-1234.vercel.app";
 export const ML_URL = "http://localhost:9000";
 // export const BASE_URL = "https://backendsurvey.herokuapp.com"
 
